@@ -22,7 +22,7 @@ enum ShootingState {
 
 class GameScene: SKScene {
     
-    var playerSpeedPerSecond: CGFloat = 100.0
+    var playerSpeedPerSecond: CGFloat = 50.0
     
     var analogDirection: CGPoint = CGPoint.zero
 
@@ -61,9 +61,12 @@ class GameScene: SKScene {
         
         setupControllerNotification()
         
+        self.physicsWorld.gravity = CGVector.zero
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         player = SKSpriteNode(color: .white, size: CGSize(width: 50, height: 50))
         player.position = CGPoint.zero
+        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
         addChild(player)
         
     }
@@ -72,8 +75,10 @@ class GameScene: SKScene {
         
         let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
         let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
-        let move = SKAction.move(by: directionToMove, duration: deltaTime)
-        sprite.run(move)
+//        let move = SKAction.move(by: directionToMove, duration: deltaTime)
+//        sprite.run(move)
+        
+        player.physicsBody?.applyImpulse(directionToMove)
         
     }
     
