@@ -9,9 +9,11 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameController
+
 
 class GameViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,5 +33,5 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
     }
-
+    
 }
