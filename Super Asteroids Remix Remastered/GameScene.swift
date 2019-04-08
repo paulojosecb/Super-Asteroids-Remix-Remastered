@@ -10,36 +10,22 @@ import SpriteKit
 import GameplayKit
 import GameController
 
-enum MovementState {
-    case moving
-    case idle
-}
-
-enum ShootingState {
-    case shooting
-    case idle
-}
-
 class GameScene: SKScene {
-    
-    var playerSpeedPerSecond: CGFloat = 50.0
-    
-    var analogDirection: CGPoint = CGPoint.zero
 
-    private var movementState: MovementState = .idle
-    private var shootingState: ShootingState = .idle
-    
-    var player: SKSpriteNode!
-    
     var lastTime: TimeInterval!
-    
+
+    var controllers = [InputController]()
+
     override func didMove(to view: SKView) {
-        setupScene()
+        setupControllerNotification()
+
+        self.physicsWorld.gravity = CGVector.zero
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
     }
-    
-    
+
+
+    // Called before each frame is rendered
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
         var deltaTime: TimeInterval!
         
         if let lastTime = lastTime {
@@ -47,92 +33,45 @@ class GameScene: SKScene {
         } else {
             deltaTime = 0
         }
-        
-        if movementState == .moving {
-            move(player, deltaTime: deltaTime)
-            print("Moving")
-        }
+
+        self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
     
         lastTime = currentTime
         
     }
     
-    func setupScene() {
-        
-        setupControllerNotification()
-        
-        self.physicsWorld.gravity = CGVector.zero
-        
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        player = SKSpriteNode(color: .white, size: CGSize(width: 50, height: 50))
-        player.position = CGPoint.zero
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-        addChild(player)
-        
-    }
-    
-    func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
-        
-        let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
-        let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
-//        let move = SKAction.move(by: directionToMove, duration: deltaTime)
-//        sprite.run(move)
-        
-        player.physicsBody?.applyImpulse(directionToMove)
-        
-    }
-    
-    @objc func setupDirectionalPad(_ notification: NSNotification) {
-        guard let controller = GCController.controllers().first else {
-            return
-            
-        }
-        guard let micro = controller.microGamepad else {
-            return
-        }
-        
-        micro.buttonA.valueChangedHandler = {
-            [weak self] (button, pressure, isPressed) in
-            self?.shootingState = isPressed ? .shooting : .idle
-        }
-        
-        micro.buttonX.valueChangedHandler = {
-            [weak self] (button, pressure, isPressed) in
-            self?.movementState = isPressed ? .moving : .idle
-        }
-        
-        micro.reportsAbsoluteDpadValues = true
-        micro.dpad.valueChangedHandler = {
-            [weak self] (pad, x, y) in
-            
-            let thresold: CGFloat = 0.2
-            
-            let tempDirection = CGPoint(x: CGFloat(x), y: CGFloat(y))
-            
-            if tempDirection.magnitude() > thresold {
-                self?.analogDirection = CGPoint(x: CGFloat(x), y: CGFloat(y))
-            } else {
-                self?.analogDirection = CGPoint.zero
-            }
-            
-        }
-    }
-    
     func setupControllerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(setupDirectionalPad(_:)), name: NSNotification.Name.GCControllerDidConnect, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setupDirectionalPad(_:)), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
-        
+        let notificationCenter = NotificationCenter.default
+
+        notificationCenter.addObserver(forName: .GCControllerDidConnect, object: nil, queue: .main) {
+            [weak self] notification in
+
+            guard let controller = notification.object as? GCController else { return }
+
+            if let microGamepad = controller.microGamepad {
+                let inputController = InputController(controller: microGamepad, scene: self!)
+                self?.controllers.append(inputController)
+            }
+        }
+
+        notificationCenter.addObserver(forName: .GCControllerDidDisconnect, object: nil, queue: .main) {
+            [weak self] notification in
+
+            guard let controller = notification.object as? GCController else { return }
+
+            if let microGamepad = controller.microGamepad {
+                self?.controllers.removeAll(where: { $0.controller == microGamepad })
+            }
+        }
+
         GCController.startWirelessControllerDiscovery(completionHandler: nil)
     }
-        
-}
 
-extension CGPoint {
-    
-    func magnitude() -> CGFloat {
-    
-        return sqrt(x * x + y * y)
-    
+    deinit {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: .GCControllerDidConnect, object: nil)
+        notificationCenter.removeObserver(self, name: .GCControllerDidDisconnect, object: nil)
+        GCController.stopWirelessControllerDiscovery()
     }
-    
+
 }
