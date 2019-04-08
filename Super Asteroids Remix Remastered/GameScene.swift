@@ -21,7 +21,8 @@ enum ShootingState {
 }
 
 class GameScene: SKScene {
-    
+    var microGamePad: GCMicroGamepad?
+
     var playerSpeedPerSecond: CGFloat = 50.0
     
     var analogDirection: CGPoint = CGPoint.zero
@@ -71,14 +72,16 @@ class GameScene: SKScene {
         
     }
     
+    func playerMoveEnded() {
+        player.removeAllActions()
+    }
+    
     func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
         
         let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
         let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
-//        let move = SKAction.move(by: directionToMove, duration: deltaTime)
-//        sprite.run(move)
-        
         player.physicsBody?.applyImpulse(directionToMove)
+        
         
     }
     
@@ -87,22 +90,20 @@ class GameScene: SKScene {
             return
             
         }
-        guard let micro = controller.microGamepad else {
-            return
-        }
+        self.microGamePad = controller.microGamepad
         
-        micro.buttonA.valueChangedHandler = {
+        microGamePad!.buttonA.valueChangedHandler = {
             [weak self] (button, pressure, isPressed) in
             self?.shootingState = isPressed ? .shooting : .idle
         }
         
-        micro.buttonX.valueChangedHandler = {
+        microGamePad!.buttonX.valueChangedHandler = {
             [weak self] (button, pressure, isPressed) in
             self?.movementState = isPressed ? .moving : .idle
         }
         
-        micro.reportsAbsoluteDpadValues = true
-        micro.dpad.valueChangedHandler = {
+        microGamePad!.reportsAbsoluteDpadValues = true
+        microGamePad!.dpad.valueChangedHandler = {
             [weak self] (pad, x, y) in
             
             let thresold: CGFloat = 0.2
