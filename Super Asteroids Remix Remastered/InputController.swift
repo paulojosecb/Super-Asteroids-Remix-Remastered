@@ -11,7 +11,7 @@ import GameController
 class InputController {
     
     private (set) var controller: GCMicroGamepad
-    private (set) weak var scene: GameScene
+    private (set) weak var scene: GameScene!
     private (set) var player: Player
 
     init(controller: GCMicroGamepad, scene: GameScene) {
@@ -21,6 +21,10 @@ class InputController {
 
         self.setupController()
         self.scene.addChild(self.player.sprite)
+    }
+
+    deinit {
+        self.player.sprite.removeFromParent()
     }
 
     func setupController() {
