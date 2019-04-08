@@ -36,6 +36,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         setupScene()
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
     }
     
     
@@ -65,24 +66,42 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        player = SKSpriteNode(color: .white, size: CGSize(width: 50, height: 50))
+        let player = SKSpriteNode(imageNamed: "spaceship")
         player.position = CGPoint.zero
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        player.setScale(0.3)
         addChild(player)
         
     }
-    
-    func playerMoveEnded() {
-        player.removeAllActions()
-    }
+
     
     func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
         
         let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
         let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
         player.physicsBody?.applyImpulse(directionToMove)
+
+    }
+    
+    func random() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    func random(min: CGFloat, max: CGFloat) -> CGFloat {
+        return random() * (max - min) + min
+    }
+    
+    func addAsteroids() {
         
-        
+        let asteroid = SKSpriteNode(imageNamed: "asteroid")
+        asteroid.setScale(0.3)
+        let actualY = random(min: asteroid.size.height/2, max: size.height - asteroid.size.height/2)
+        asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
+        addChild(asteroid)
+        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
+        let actionMoveDone = SKAction.removeFromParent()
+        asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
     
     @objc func setupDirectionalPad(_ notification: NSNotification) {
