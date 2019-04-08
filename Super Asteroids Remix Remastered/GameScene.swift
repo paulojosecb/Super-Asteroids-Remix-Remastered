@@ -49,22 +49,22 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        let player = SKSpriteNode(imageNamed: "spaceship")
-        player.position = CGPoint.zero
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-        player.setScale(0.3)
-        addChild(player)
+//        let player = SKSpriteNode(imageNamed: "spaceship")
+//        player.position = CGPoint.zero
+//        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+//        player.setScale(0.3)
+//        addChild(player)
         
     }
 
     
-    func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
-        
-        let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
-        let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
-        player.physicsBody?.applyImpulse(directionToMove)
-
-    }
+//    func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
+//
+//        let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
+//        let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
+//        player.physicsBody?.applyImpulse(directionToMove)
+//
+//    }
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
@@ -87,24 +87,24 @@ class GameScene: SKScene {
         asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
     
-    @objc func setupDirectionalPad(_ notification: NSNotification) {
-        guard let controller = GCController.controllers().first else {
-            return
-            
-        }
-        self.microGamePad = controller.microGamepad
-        
-        microGamePad!.buttonA.valueChangedHandler = {
-            [weak self] (button, pressure, isPressed) in
-            self?.shootingState = isPressed ? .shooting : .idle
-        }
-        
-        microGamePad!.buttonX.valueChangedHandler = {
-            [weak self] (button, pressure, isPressed) in
-            self?.movementState = isPressed ? .moving : .idle
-        }
-        
-    }
+//    @objc func setupDirectionalPad(_ notification: NSNotification) {
+//        guard let controller = GCController.controllers().first else {
+//            return
+//            
+//        }
+//        self.microGamePad = controller.microGamepad
+//        
+//        microGamePad!.buttonA.valueChangedHandler = {
+//            [weak self] (button, pressure, isPressed) in
+//            self?.shootingState = isPressed ? .shooting : .idle
+//        }
+//        
+//        microGamePad!.buttonX.valueChangedHandler = {
+//            [weak self] (button, pressure, isPressed) in
+//            self?.movementState = isPressed ? .moving : .idle
+//        }
+//        
+//    }
     
     func setupControllerNotification() {
         let notificationCenter = NotificationCenter.default

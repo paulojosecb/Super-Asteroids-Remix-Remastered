@@ -26,9 +26,11 @@ class Player: GKEntity {
 
     override init() {
         super.init()
-        self.sprite = SKSpriteNode(color: .white, size: CGSize(width: 50, height: 50))
+        self.sprite = SKSpriteNode(imageNamed: "spaceship")
+        self.sprite.setScale(0.3)
+        //self.sprite = SKSpriteNode(color: .clear, size: CGSize(width: 50, height: 50))
         self.sprite.position = CGPoint.zero
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        //self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
     }
 
     required init?(coder aDecoder: NSCoder) {
