@@ -63,12 +63,25 @@ class GameScene: SKScene {
         let actionMove = SKAction.move(to: CGPoint(x: -frame.width, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
         let actionMoveDone = SKAction.removeFromParent()
         asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
+//        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
+//        self.sprite.physicsBody?.categoryBitMask = 0b00100
+//        self.sprite.physicsBody?.collisionBitMask = 0b00001
+//        self.sprite.physicsBody?.contactTestBitMask = 0b00001
+        asteroid.physicsBody = SKPhysicsBody(rectangleOf: asteroid.size)
+        asteroid.physicsBody?.categoryBitMask = 0b00100
+        asteroid.physicsBody?.collisionBitMask = 0b00001
+        asteroid.physicsBody?.contactTestBitMask = 0b00001
         
     }
     
     func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: SKSpriteNode) {
         asteroid.removeFromParent()
         bullet.removeFromParent()
+    }
+    
+    func spaceShipDidCollideWithAsteroid(spaceShip: SKSpriteNode, asteroid: SKSpriteNode) {
+        spaceShip.removeFromParent()
+        asteroid.removeFromParent()
     }
 
     func setupControllerObservers() {
@@ -119,16 +132,20 @@ extension GameScene: SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         if secondBody.node?.entity is Bullet {
-            
+            if let bullet = firstBody.node as? SKSpriteNode, let asteroid = secondBody.node as? SKSpriteNode {
+            BulletDidCollideWithAsteroid(bullet: bullet, asteroid: asteroid)
+
         } else if secondBody.node?.entity is Player {
-            
+            if let spaceShip = firstBody.node as? SKSpriteNode, let asteroid = secondBody.node as? SKSpriteNode {
+            spaceShipDidCollideWithAsteroid(spaceShip: spaceShip, asteroid: asteroid)
+
         }
 //        if ((firstBody.collisionBitMask & PhysicsCategory.girl != 0) && (secondBody.collisionBitMask & PhysicsCategory.obstacle != 0)) {
 //            if let spaceShip = firstBody.node as? SKSpriteNode, let asteroide = secondBody.node as? SKSpriteNode {
 ////                girlDidCollideWithObstacle(girl: girl, obstacle: obstacle)
 //
-//            }
-//        }
+            }
+        }
     }
     
 }

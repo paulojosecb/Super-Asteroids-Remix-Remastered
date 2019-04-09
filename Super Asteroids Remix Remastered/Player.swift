@@ -33,9 +33,10 @@ class Player: GKEntity {
         self.sprite = SKSpriteNode(imageNamed: "spaceship")
         self.sprite.setScale(0.3)
         self.sprite.position = CGPoint.zero
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
         self.sprite.physicsBody?.categoryBitMask = 0b00100
         self.sprite.physicsBody?.collisionBitMask = 0b00001
+        self.sprite.physicsBody?.contactTestBitMask = 0b00010
 
         self.inputController = InputController(controller: microGamepad)
 

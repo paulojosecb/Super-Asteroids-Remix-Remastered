@@ -23,7 +23,7 @@ class Bullet: GKEntity {
         self.bullet.zPosition = -5
         //self.sprite = SKSpriteNode(color: .clear, size: CGSize(width: 50, height: 50))
         self.bullet.position = CGPoint.zero
-        self.bullet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        self.bullet.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,6 +42,7 @@ class Bullet: GKEntity {
         self.bullet.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
         self.bullet.physicsBody?.categoryBitMask = 0b00010
         self.bullet.physicsBody?.collisionBitMask = 0b00001
+        self.bullet.physicsBody?.contactTestBitMask = 0b00010
         self.bullet.physicsBody?.affectedByGravity = false
         self.bullet.physicsBody?.isDynamic = false
     }
