@@ -14,6 +14,8 @@ class Player: GKEntity {
     // MARK: - Properties
 
     var sprite: SKSpriteNode!
+//    var bullet: SKSpriteNode!
+    var bulletReference: Bullet!
 
     var speedPerSecond: CGFloat = 50.0
 
@@ -30,7 +32,7 @@ class Player: GKEntity {
         self.sprite.setScale(0.3)
         //self.sprite = SKSpriteNode(color: .clear, size: CGSize(width: 50, height: 50))
         self.sprite.position = CGPoint.zero
-        //self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,6 +43,12 @@ class Player: GKEntity {
         if self.isMoving {
             self.move(deltaTime: seconds)
         }
+        if self.isShooting {
+            while isShooting {
+                let bullet = Bullet(player: self)
+                bullet.shoot()
+            }
+        }
     }
 
     func move(deltaTime: TimeInterval) {
@@ -50,5 +58,22 @@ class Player: GKEntity {
 
         self.sprite.physicsBody?.applyImpulse(directionToMove)
     }
+    
+//    func shoot() {
+//        bulletReference.zRotation = player.sprite.zRotation
+//        bulletReference.position = player.sprite.position
+//        let actionMove = SKAction.move(to: CGPoint(
+//            x: 400 * -cos(bulletReference.zRotation - 1.57079633) + bulletReference.position.x,
+//            y: 400 * -sin(bulletReference.zRotation - 1.57079633) + bulletReference.position.y
+//        ), duration: 2.0)
+//        let actionMoveDone = SKAction.removeFromParent()
+//        bulletReference.run(SKAction.sequence([actionMove, actionMoveDone]))
+//        bulletReference.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
+//        bulletReference.physicsBody?.affectedByGravity = false
+//        bulletReference.physicsBody?.isDynamic = false
+//        
+//        //        self.scene.addChild(self.player.bullet)
+//    }
+
 
 }

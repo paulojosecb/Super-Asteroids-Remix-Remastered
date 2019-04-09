@@ -13,14 +13,17 @@ class InputController {
     private (set) var controller: GCMicroGamepad
     private (set) weak var scene: GameScene!
     private (set) var player: Player
+    private (set) var bullet: Bullet
 
     init(controller: GCMicroGamepad, scene: GameScene) {
         self.player = Player()
+        self.bullet = Bullet(player: player)
         self.scene = scene
         self.controller = controller
 
         self.setupController()
         self.scene.addChild(self.player.sprite)
+        self.scene.addChild(self.bullet.bullet)
     }
 
     deinit {
