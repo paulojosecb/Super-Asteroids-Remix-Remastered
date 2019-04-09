@@ -60,8 +60,8 @@ class GameScene: SKScene {
         return random() * (max - min) + min
     }
     
-    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: SKSpriteNode) {
-        asteroid.removeFromParent()
+    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: Asteroid) {
+        asteroid.delegate?.destroy(asteroid: asteroid)
         bullet.removeFromParent()
     }
 
