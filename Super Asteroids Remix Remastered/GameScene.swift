@@ -15,6 +15,8 @@ class GameScene: SKScene {
     var lastTime: TimeInterval!
 
     var controllers = [InputController]()
+    
+    var asteroid: Asteroid!
 
     override func didMove(to view: SKView) {
         setupControllerNotification()
@@ -22,7 +24,11 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         setupScene()
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
+//        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
+        
+        asteroid = Asteroid(with: .medium, and: CGPoint(x: 340, y: 230))
+        addChild(asteroid.sprite)
+
     }
 
 
@@ -34,11 +40,14 @@ class GameScene: SKScene {
             deltaTime = currentTime - lastTime
         } else {
             deltaTime = 0
+            asteroid.applyImpulseTo(point: CGPoint.zero)
         }
 
         self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
     
         lastTime = currentTime
+        
+        print(asteroid.sprite.position)
         
     }
     
@@ -74,19 +83,19 @@ class GameScene: SKScene {
         return random() * (max - min) + min
     }
     
-    func addAsteroids() {
-        
-        let asteroid = SKSpriteNode(imageNamed: "asteroid")
-        asteroid.setScale(0.3)
-        let actualY = random(min: -size.height/2, max: size.height/2)
-        asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
-        addChild(asteroid)
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
-        
-    }
+//    func addAsteroids() {
+//        
+//        let asteroid = SKSpriteNode(imageNamed: "asteroid")
+//        asteroid.setScale(0.3)
+//        let actualY = random(min: -size.height/2, max: size.height/2)
+//        asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
+//        addChild(asteroid)
+//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+//        let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
+//        let actionMoveDone = SKAction.removeFromParent()
+//        asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
+//        
+//    }
     
 //    @objc func setupDirectionalPad(_ notification: NSNotification) {
 //        guard let controller = GCController.controllers().first else {
