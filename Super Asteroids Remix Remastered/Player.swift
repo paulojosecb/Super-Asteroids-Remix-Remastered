@@ -8,12 +8,15 @@
 
 import SpriteKit
 import GameplayKit
+import GameController
 
 class Player: GKEntity {
 
     // MARK: - Properties
 
-    var sprite: SKSpriteNode!
+    var sprite: SKSpriteNode
+    var scene: GameScene
+    var inputController: InputController
 
     var speedPerSecond: CGFloat = 50.0
     
@@ -38,18 +41,22 @@ class Player: GKEntity {
     var isMoving: Bool = false
     var isShooting: Bool = false
 
-    var analogDirection: CGPoint = CGPoint.zero
-
     // MARK: - Life Cycle
 
-    override init() {
-        super.init()
+    init(scene: GameScene, microGamepad: GCMicroGamepad) {
+        self.scene = scene
+
         self.sprite = SKSpriteNode(imageNamed: "spaceship")
         self.sprite.setScale(0.3)
-        //self.sprite = SKSpriteNode(color: .clear, size: CGSize(width: 50, height: 50))
         self.sprite.position = CGPoint.zero
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-        
+
+        self.inputController = InputController(controller: microGamepad)
+
+        super.init()
+
+        self.setupControllerCallbacks()
+        self.scene.addChild(self.sprite)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,10 +90,23 @@ class Player: GKEntity {
         clampMovement()
     }
 
+    func setupControllerCallbacks() {
+        self.inputController.onPushButtonValueChange = { [weak self] isPressed in
+            self?.isMoving = isPressed
+        }
+
+        self.inputController.onShootButtonValueChange = { [weak self] isPressed in
+
+            self?.isShooting = isPressed
+        }
+    }
+
     func move(deltaTime: TimeInterval) {
+        let currentDirection = self.inputController.analogDirection
+
         let speedOnThisFrame = CGFloat(deltaTime) * self.speedPerSecond
-        let directionToMove = CGVector(dx: self.analogDirection.x * speedOnThisFrame,
-                                       dy: self.analogDirection.y * speedOnThisFrame)
+        let directionToMove = CGVector(dx: currentDirection.x * speedOnThisFrame,
+                                       dy: currentDirection.y * speedOnThisFrame)
 
         self.sprite.physicsBody?.applyImpulse(directionToMove)
     }
