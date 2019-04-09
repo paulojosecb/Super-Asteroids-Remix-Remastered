@@ -20,7 +20,7 @@ class Asteroid: GKEntity {
     var sprite: SKSpriteNode = SKSpriteNode(imageNamed: "asteroid")
     var size: AsteroidSize!
     var directionToTravel: CGPoint!
-    var impulseIntensity: CGFloat = 0.0001
+    var impulseIntensity: CGFloat = 0.0002
     
     var delegate: AsteroidDelegate?
     

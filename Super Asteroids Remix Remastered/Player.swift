@@ -47,6 +47,8 @@ class Player: GKEntity {
         let speedOnThisFrame = CGFloat(deltaTime) * self.speedPerSecond
         let directionToMove = CGVector(dx: self.analogDirection.x * speedOnThisFrame,
                                        dy: self.analogDirection.y * speedOnThisFrame)
+        
+        self.sprite.zRotation = atan2(analogDirection.y, analogDirection.x) - .pi/2
 
         self.sprite.physicsBody?.applyImpulse(directionToMove)
     }
