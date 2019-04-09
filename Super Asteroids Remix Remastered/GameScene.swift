@@ -15,8 +15,7 @@ class GameScene: SKScene {
     var lastTime: TimeInterval!
 
     var controllers = [InputController]()
-    
-    var asteroid: Asteroid!
+    var asteroidController: AsteroidsController!
 
     override func didMove(to view: SKView) {
         setupControllerNotification()
@@ -24,11 +23,8 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         setupScene()
-//        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
-        
-        asteroid = Asteroid(with: .medium, and: CGPoint(x: 340, y: 230))
-        addChild(asteroid.sprite)
-
+        asteroidController = AsteroidsController(with: self)
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(asteroidController.createAsteroid), SKAction.wait(forDuration: 2.0)])))
     }
 
 
@@ -40,15 +36,13 @@ class GameScene: SKScene {
             deltaTime = currentTime - lastTime
         } else {
             deltaTime = 0
-            asteroid.applyImpulseTo(point: CGPoint.zero)
         }
 
         self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
-    
+        self.asteroidController.updateAsteroids()
+        
         lastTime = currentTime
-        
-        print(asteroid.sprite.position)
-        
+                
     }
     
     func setupScene() {
@@ -58,23 +52,10 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        let player = SKSpriteNode(imageNamed: "spaceship")
-//        player.position = CGPoint.zero
-//        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-//        player.setScale(0.3)
-//        addChild(player)
+
         
     }
 
-    
-//    func move(_ sprite: SKSpriteNode, deltaTime: TimeInterval) {
-//
-//        let speedOnThisFrame = CGFloat(deltaTime) * playerSpeedPerSecond
-//        let directionToMove = CGVector(dx: analogDirection.x * speedOnThisFrame, dy: analogDirection.y * speedOnThisFrame)
-//        player.physicsBody?.applyImpulse(directionToMove)
-//
-//    }
-    
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
@@ -82,39 +63,6 @@ class GameScene: SKScene {
     func random(min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
-    
-//    func addAsteroids() {
-//        
-//        let asteroid = SKSpriteNode(imageNamed: "asteroid")
-//        asteroid.setScale(0.3)
-//        let actualY = random(min: -size.height/2, max: size.height/2)
-//        asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
-//        addChild(asteroid)
-//        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-//        let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
-//        let actionMoveDone = SKAction.removeFromParent()
-//        asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
-//        
-//    }
-    
-//    @objc func setupDirectionalPad(_ notification: NSNotification) {
-//        guard let controller = GCController.controllers().first else {
-//            return
-//            
-//        }
-//        self.microGamePad = controller.microGamepad
-//        
-//        microGamePad!.buttonA.valueChangedHandler = {
-//            [weak self] (button, pressure, isPressed) in
-//            self?.shootingState = isPressed ? .shooting : .idle
-//        }
-//        
-//        microGamePad!.buttonX.valueChangedHandler = {
-//            [weak self] (button, pressure, isPressed) in
-//            self?.movementState = isPressed ? .moving : .idle
-//        }
-//        
-//    }
     
     func setupControllerNotification() {
         let notificationCenter = NotificationCenter.default

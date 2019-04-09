@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B10A4D4225CBAD30022C9A9 /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */; };
 		2B10A4D7225CBEAA0022C9A9 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D6225CBEAA0022C9A9 /* CGPoint.swift */; };
+		2B10A4D9225CCFD50022C9A9 /* AsteroidsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */; };
 		2BE1EC7D225773D200E514D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE1EC7C225773D200E514D5 /* AppDelegate.swift */; };
 		2BE1EC7F225773D200E514D5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC7E225773D200E514D5 /* GameScene.sks */; };
 		2BE1EC81225773D200E514D5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC80225773D200E514D5 /* Actions.sks */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asteroid.swift; sourceTree = "<group>"; };
 		2B10A4D6225CBEAA0022C9A9 /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidsController.swift; sourceTree = "<group>"; };
 		2BE1EC79225773D200E514D5 /* Super Asteroids Remix Remastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Super Asteroids Remix Remastered.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE1EC7C225773D200E514D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2BE1EC7E225773D200E514D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				2BE1EC7E225773D200E514D5 /* GameScene.sks */,
 				2BE1EC80225773D200E514D5 /* Actions.sks */,
 				5D7F83B2225B670A008D3598 /* InputController.swift */,
+				2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */,
 				2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */,
 				5D7F83B4225B685A008D3598 /* Player.swift */,
 				2BE1EC82225773D200E514D5 /* GameScene.swift */,
@@ -168,6 +171,7 @@
 				2B10A4D7225CBEAA0022C9A9 /* CGPoint.swift in Sources */,
 				5D7F83B5225B685A008D3598 /* Player.swift in Sources */,
 				2B10A4D4225CBAD30022C9A9 /* Asteroid.swift in Sources */,
+				2B10A4D9225CCFD50022C9A9 /* AsteroidsController.swift in Sources */,
 				2BE1EC7D225773D200E514D5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
