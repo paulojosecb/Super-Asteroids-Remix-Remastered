@@ -13,7 +13,7 @@ import GameController
 class GameScene: SKScene {
 
     var lastTime: TimeInterval!
-
+    var hud: HUD?
     var controllers = [InputController]()
 
     override func didMove(to view: SKView) {
@@ -37,6 +37,7 @@ class GameScene: SKScene {
         }
 
         self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
+        self.hud?.update(deltaTime: deltaTime)
     
         lastTime = currentTime
         
@@ -49,6 +50,8 @@ class GameScene: SKScene {
         self.physicsWorld.gravity = CGVector.zero
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        self.hud = HUD(on: self)
 //        let player = SKSpriteNode(imageNamed: "spaceship")
 //        player.position = CGPoint.zero
 //        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
@@ -117,6 +120,7 @@ class GameScene: SKScene {
             if let microGamepad = controller.microGamepad {
                 let inputController = InputController(controller: microGamepad, scene: self!)
                 self?.controllers.append(inputController)
+                self?.hud?.thermometerDelegate = inputController.player
             }
         }
 
