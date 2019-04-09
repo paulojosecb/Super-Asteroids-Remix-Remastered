@@ -78,13 +78,14 @@ class GameScene: SKScene {
         
         let asteroid = SKSpriteNode(imageNamed: "asteroid")
         asteroid.setScale(0.3)
-        let actualY = random(min: asteroid.size.height/2, max: size.height - asteroid.size.height/2)
+        let actualY = random(min: -size.height/2, max: size.height/2)
         asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
         addChild(asteroid)
         let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
         let actionMove = SKAction.move(to: CGPoint(x: -asteroid.size.width/2, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
         let actionMoveDone = SKAction.removeFromParent()
         asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
+        
     }
     
 //    @objc func setupDirectionalPad(_ notification: NSNotification) {
