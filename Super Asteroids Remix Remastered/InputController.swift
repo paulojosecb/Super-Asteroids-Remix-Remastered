@@ -13,6 +13,7 @@ class InputController {
     // MARK: - Properties
 
     private (set) var controller: GCMicroGamepad
+    
     private (set) var analogDirection: CGPoint
 
     // MARK: - Callbacks

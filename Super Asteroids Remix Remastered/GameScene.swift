@@ -20,6 +20,7 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = CGVector.zero
+        self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         asteroidController = AsteroidsController(with: self)
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(asteroidController.createAsteroid), SKAction.wait(forDuration: 2.0)])))
@@ -59,6 +60,11 @@ class GameScene: SKScene {
         return random() * (max - min) + min
     }
     
+    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: SKSpriteNode) {
+        asteroid.removeFromParent()
+        bullet.removeFromParent()
+    }
+
     func setupControllerObservers() {
         let notificationCenter = NotificationCenter.default
 
@@ -94,3 +100,33 @@ class GameScene: SKScene {
     }
 
 }
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        if secondBody.node?.entity is Bullet {
+            
+        } else if secondBody.node?.entity is Player {
+            
+        }
+//        if ((firstBody.collisionBitMask & PhysicsCategory.girl != 0) && (secondBody.collisionBitMask & PhysicsCategory.obstacle != 0)) {
+//            if let spaceShip = firstBody.node as? SKSpriteNode, let asteroide = secondBody.node as? SKSpriteNode {
+////                girlDidCollideWithObstacle(girl: girl, obstacle: obstacle)
+//
+//            }
+//        }
+    }
+    
+}
+
+
+

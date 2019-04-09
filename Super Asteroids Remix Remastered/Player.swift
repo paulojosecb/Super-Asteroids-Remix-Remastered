@@ -14,6 +14,8 @@ class Player: GKEntity {
 
     // MARK: - Properties
 
+//    var bullet: SKSpriteNode!
+    var bulletReference: Bullet!
     var sprite: SKSpriteNode
     var scene: GameScene
     var inputController: InputController
@@ -50,6 +52,8 @@ class Player: GKEntity {
         self.sprite.setScale(0.3)
         self.sprite.position = CGPoint.zero
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        self.sprite.physicsBody?.categoryBitMask = 0b00100
+        self.sprite.physicsBody?.collisionBitMask = 0b00001
 
         self.inputController = InputController(controller: microGamepad)
 
@@ -88,6 +92,9 @@ class Player: GKEntity {
         }
         changeTemperature(amount: -normalCooldown)
         clampMovement()
+        if self.isShooting {
+            self.shoot(deltaTime: seconds)
+        }
     }
 
     func setupControllerCallbacks() {
@@ -112,6 +119,30 @@ class Player: GKEntity {
 
         self.sprite.physicsBody?.applyImpulse(directionToMove)
     }
+    
+    func shoot(deltaTime: TimeInterval) {
+        let bullet = Bullet(player: self)
+        bullet.shoot()
+        
+        self.scene.addChild(bullet.bullet)
+    }
+    
+//    func shoot() {
+//        bulletReference.zRotation = player.sprite.zRotation
+//        bulletReference.position = player.sprite.position
+//        let actionMove = SKAction.move(to: CGPoint(
+//            x: 400 * -cos(bulletReference.zRotation - 1.57079633) + bulletReference.position.x,
+//            y: 400 * -sin(bulletReference.zRotation - 1.57079633) + bulletReference.position.y
+//        ), duration: 2.0)
+//        let actionMoveDone = SKAction.removeFromParent()
+//        bulletReference.run(SKAction.sequence([actionMove, actionMoveDone]))
+//        bulletReference.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
+//        bulletReference.physicsBody?.affectedByGravity = false
+//        bulletReference.physicsBody?.isDynamic = false
+//        
+//        //        self.scene.addChild(self.player.bullet)
+//    }
+
 
     func clampMovement() {
         guard let view = self.sprite.scene else { return }

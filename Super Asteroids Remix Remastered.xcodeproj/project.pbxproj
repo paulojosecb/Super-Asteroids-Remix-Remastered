@@ -19,6 +19,7 @@
 		2BE1EC8A225773D400E514D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC89225773D400E514D5 /* Assets.xcassets */; };
 		3033149A225CCF5C001D33A3 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30331499225CCF5C001D33A3 /* HUD.swift */; };
 		3033149C225CD1D9001D33A3 /* ThermometerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3033149B225CD1D9001D33A3 /* ThermometerDelegate.swift */; };
+		577B9463225CCDEB00C1CE2B /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577B9462225CCDEB00C1CE2B /* Bullet.swift */; };
 		5D7F83B3225B670A008D3598 /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F83B2225B670A008D3598 /* InputController.swift */; };
 		5D7F83B5225B685A008D3598 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F83B4225B685A008D3598 /* Player.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		2BE1EC8B225773D400E514D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30331499225CCF5C001D33A3 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		3033149B225CD1D9001D33A3 /* ThermometerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThermometerDelegate.swift; sourceTree = "<group>"; };
+		577B9462225CCDEB00C1CE2B /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
 		5D7F83B2225B670A008D3598 /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
 		5D7F83B4225B685A008D3598 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 				2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */,
 				2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */,
 				5D7F83B4225B685A008D3598 /* Player.swift */,
+				577B9462225CCDEB00C1CE2B /* Bullet.swift */,
 				2BE1EC82225773D200E514D5 /* GameScene.swift */,
 				2BE1EC84225773D200E514D5 /* GameViewController.swift */,
 				30331499225CCF5C001D33A3 /* HUD.swift */,
@@ -181,6 +184,7 @@
 				2B10A4D4225CBAD30022C9A9 /* Asteroid.swift in Sources */,
 				2B10A4D9225CCFD50022C9A9 /* AsteroidsController.swift in Sources */,
 				2BE1EC7D225773D200E514D5 /* AppDelegate.swift in Sources */,
+				577B9463225CCDEB00C1CE2B /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
