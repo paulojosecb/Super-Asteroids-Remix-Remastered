@@ -13,15 +13,15 @@ import GameController
 class GameScene: SKScene {
 
     var lastTime: TimeInterval!
-
-    var controllers = [InputController]()
+    var player: Player?
 
     override func didMove(to view: SKView) {
-        setupControllerNotification()
-
         self.physicsWorld.gravity = CGVector.zero
+        self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        setupScene()
+
+        self.setupControllerObservers()
+
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
     }
 
@@ -36,25 +36,14 @@ class GameScene: SKScene {
             deltaTime = 0
         }
 
-        self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
-    
+        if let player = self.player {
+            player.update(deltaTime: deltaTime)
+        }
+
         lastTime = currentTime
         
     }
-    
-    func setupScene() {
-        
-        setupControllerNotification()
-        
-        self.physicsWorld.gravity = CGVector.zero
-        
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        
-    }
 
-    
-
-    
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
@@ -67,42 +56,45 @@ class GameScene: SKScene {
         
         let asteroid = SKSpriteNode(imageNamed: "asteroid")
         asteroid.setScale(0.3)
-        let actualY = random(min: asteroid.size.height/2, max: size.height - asteroid.size.height/2)
+        let actualY = random(min: -size.height/2, max: size.height/2)
         asteroid.position = CGPoint(x: size.width + asteroid.size.width/2, y: actualY)
         addChild(asteroid)
         let actualDuration = random(min: CGFloat(3.0), max: CGFloat(6.0))
         let actionMove = SKAction.move(to: CGPoint(x: -frame.width, y: asteroid.size.width/2), duration: TimeInterval(actualDuration))
         let actionMoveDone = SKAction.removeFromParent()
         asteroid.run(SKAction.sequence([actionMove, actionMoveDone]))
+        
     }
     
+    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: SKSpriteNode) {
+        asteroid.removeFromParent()
+        bullet.removeFromParent()
+    }
 
-    
-    func setupControllerNotification() {
+    func setupControllerObservers() {
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: .GCControllerDidConnect, object: nil, queue: .main) {
-            [weak self] notification in
-
-            guard let controller = notification.object as? GCController else { return }
-
-            if let microGamepad = controller.microGamepad {
-                let inputController = InputController(controller: microGamepad, scene: self!)
-                self?.controllers.append(inputController)
-            }
-        }
-
-        notificationCenter.addObserver(forName: .GCControllerDidDisconnect, object: nil, queue: .main) {
-            [weak self] notification in
-
-            guard let controller = notification.object as? GCController else { return }
-
-            if let microGamepad = controller.microGamepad {
-                self?.controllers.removeAll(where: { $0.controller == microGamepad })
-            }
-        }
+        notificationCenter.addObserver(self, selector: #selector(setupController(_:)), name: .GCControllerDidConnect, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(setupController(_:)), name: .GCControllerDidDisconnect, object: nil)
 
         GCController.startWirelessControllerDiscovery(completionHandler: nil)
+    }
+
+    @objc func setupController(_ notification: NSNotification) {
+        print(notification.description)
+
+        guard let controller = GCController.controllers().last,
+            let microGamepad = controller.microGamepad else {
+                print("Connect a controller to continue")
+                return
+        }
+
+        if let player = self.player {
+            player.inputController = InputController(controller: microGamepad)
+            player.setupControllerCallbacks()
+        } else {
+            self.player = Player(scene: self, microGamepad: microGamepad)
+        }
     }
 
     deinit {
@@ -113,5 +105,33 @@ class GameScene: SKScene {
     }
 
 }
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        if secondBody.node?.entity is Bullet {
+            
+        } else if secondBody.node?.entity is Player {
+            
+        }
+//        if ((firstBody.collisionBitMask & PhysicsCategory.girl != 0) && (secondBody.collisionBitMask & PhysicsCategory.obstacle != 0)) {
+//            if let spaceShip = firstBody.node as? SKSpriteNode, let asteroide = secondBody.node as? SKSpriteNode {
+////                girlDidCollideWithObstacle(girl: girl, obstacle: obstacle)
+//
+//            }
+//        }
+    }
+    
+}
+
 
 

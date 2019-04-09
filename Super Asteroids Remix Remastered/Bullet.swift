@@ -40,10 +40,10 @@ class Bullet: GKEntity {
         let actionMoveDone = SKAction.removeFromParent()
         self.bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
         self.bullet.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
+        self.bullet.physicsBody?.categoryBitMask = 0b00010
+        self.bullet.physicsBody?.collisionBitMask = 0b00001
         self.bullet.physicsBody?.affectedByGravity = false
         self.bullet.physicsBody?.isDynamic = false
-        
-        //        self.scene.addChild(self.player.bullet)
     }
 
 }

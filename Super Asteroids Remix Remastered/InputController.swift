@@ -9,36 +9,42 @@
 import GameController
 
 class InputController {
-    
-    private (set) var controller: GCMicroGamepad
-    private (set) weak var scene: GameScene!
-    private (set) var player: Player
-    private (set) var bullet: Bullet
 
-    init(controller: GCMicroGamepad, scene: GameScene) {
-        self.player = Player()
-        self.bullet = Bullet(player: player)
-        self.scene = scene
+    // MARK: - Properties
+
+    private (set) var controller: GCMicroGamepad
+    
+    private (set) var analogDirection: CGPoint
+
+    // MARK: - Callbacks
+
+    var onShootButtonValueChange: ((Bool) -> Void)?
+    var onPushButtonValueChange: ((Bool) -> Void)?
+
+    // MARK: - Life cycle
+
+    init(controller: GCMicroGamepad) {
         self.controller = controller
+        self.analogDirection = CGPoint.zero
 
         self.setupController()
-        self.scene.addChild(self.player.sprite)
-        self.scene.addChild(self.bullet.bullet)
-    }
-
-    deinit {
-        self.player.sprite.removeFromParent()
     }
 
     func setupController() {
         self.controller.buttonA.valueChangedHandler = {
             [weak self] (_, _, isPressed) in
-            self?.player.isShooting = isPressed
+            
+            if let onShootButtonValueChange = self?.onShootButtonValueChange {
+                onShootButtonValueChange(isPressed)
+            }
         }
 
         self.controller.buttonX.valueChangedHandler = {
             [weak self] (_, _, isPressed) in
-            self?.player.isMoving = isPressed
+
+            if let onPushButtonValueChange = self?.onPushButtonValueChange {
+                onPushButtonValueChange(isPressed)
+            }
         }
 
         self.controller.reportsAbsoluteDpadValues = true
@@ -50,10 +56,11 @@ class InputController {
             let tempDirection = CGPoint(x: CGFloat(x), y: CGFloat(y))
 
             if tempDirection.magnitude() > thresold {
-                self?.player.analogDirection = CGPoint(x: CGFloat(x), y: CGFloat(y))
+                self?.analogDirection = CGPoint(x: CGFloat(x), y: CGFloat(y))
             } else {
-                self?.player.analogDirection = CGPoint.zero
+                self?.analogDirection = CGPoint.zero
             }
+
         }
     }
 
