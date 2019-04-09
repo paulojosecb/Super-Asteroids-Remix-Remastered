@@ -13,18 +13,20 @@ import GameController
 class GameScene: SKScene {
 
     var lastTime: TimeInterval!
-
+    var hud: HUD?
     var controllers = [InputController]()
     var asteroidController: AsteroidsController!
+    var player: Player?
 
     override func didMove(to view: SKView) {
-        setupControllerNotification()
-
         self.physicsWorld.gravity = CGVector.zero
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        setupScene()
         asteroidController = AsteroidsController(with: self)
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(asteroidController.createAsteroid), SKAction.wait(forDuration: 2.0)])))
+
+        self.hud = HUD(on: self)
+
+        self.setupControllerObservers()
     }
 
 
@@ -38,22 +40,15 @@ class GameScene: SKScene {
             deltaTime = 0
         }
 
-        self.controllers.forEach { $0.player.update(deltaTime: deltaTime) }
         self.asteroidController.updateAsteroids()
+        self.hud?.update(deltaTime: deltaTime)
+
+        if let player = self.player {
+            player.update(deltaTime: deltaTime)
+        }
         
         lastTime = currentTime
                 
-    }
-    
-    func setupScene() {
-        
-        setupControllerNotification()
-        
-        self.physicsWorld.gravity = CGVector.zero
-        
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-
-        
     }
 
     func random() -> CGFloat {
@@ -64,31 +59,31 @@ class GameScene: SKScene {
         return random() * (max - min) + min
     }
     
-    func setupControllerNotification() {
+    func setupControllerObservers() {
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(forName: .GCControllerDidConnect, object: nil, queue: .main) {
-            [weak self] notification in
-
-            guard let controller = notification.object as? GCController else { return }
-
-            if let microGamepad = controller.microGamepad {
-                let inputController = InputController(controller: microGamepad, scene: self!)
-                self?.controllers.append(inputController)
-            }
-        }
-
-        notificationCenter.addObserver(forName: .GCControllerDidDisconnect, object: nil, queue: .main) {
-            [weak self] notification in
-
-            guard let controller = notification.object as? GCController else { return }
-
-            if let microGamepad = controller.microGamepad {
-                self?.controllers.removeAll(where: { $0.controller == microGamepad })
-            }
-        }
+        notificationCenter.addObserver(self, selector: #selector(setupController(_:)), name: .GCControllerDidConnect, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(setupController(_:)), name: .GCControllerDidDisconnect, object: nil)
 
         GCController.startWirelessControllerDiscovery(completionHandler: nil)
+    }
+
+    @objc func setupController(_ notification: NSNotification) {
+        print(notification.description)
+
+        guard let controller = GCController.controllers().last,
+            let microGamepad = controller.microGamepad else {
+                print("Connect a controller to continue")
+                return
+        }
+
+        if let player = self.player {
+            player.inputController = InputController(controller: microGamepad)
+            player.setupControllerCallbacks()
+        } else {
+            self.player = Player(scene: self, microGamepad: microGamepad)
+            self.hud?.thermometerDelegate = self.player
+        }
     }
 
     deinit {
