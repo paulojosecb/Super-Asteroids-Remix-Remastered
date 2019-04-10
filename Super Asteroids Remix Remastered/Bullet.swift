@@ -19,6 +19,7 @@ class Bullet: GKEntity {
         super.init()
         self.player = player
         self.bullet = SKSpriteNode(imageNamed: "bullet")
+        self.bullet.entity = self
         self.bullet.setScale(0.09)
         self.bullet.zPosition = -5
         //self.sprite = SKSpriteNode(color: .clear, size: CGSize(width: 50, height: 50))
@@ -42,7 +43,7 @@ class Bullet: GKEntity {
         self.bullet.physicsBody = SKPhysicsBody(rectangleOf: self.bullet.size)
         self.bullet.physicsBody?.categoryBitMask = 0b00010
         self.bullet.physicsBody?.collisionBitMask = 0b00001
-        self.bullet.physicsBody?.contactTestBitMask = 0b00010
+        self.bullet.physicsBody?.contactTestBitMask = 0b00100
         self.bullet.physicsBody?.affectedByGravity = false
         self.bullet.physicsBody?.isDynamic = false
     }

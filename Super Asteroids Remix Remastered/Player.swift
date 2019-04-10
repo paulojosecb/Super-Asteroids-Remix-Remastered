@@ -36,12 +36,12 @@ class Player: GKEntity {
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
         self.sprite.physicsBody?.categoryBitMask = 0b00100
         self.sprite.physicsBody?.collisionBitMask = 0b00001
-        self.sprite.physicsBody?.contactTestBitMask = 0b00010
+        self.sprite.physicsBody?.contactTestBitMask = 0b00100
 
         self.inputController = InputController(controller: microGamepad)
 
         super.init()
-
+        self.sprite.entity = self
         self.setupControllerCallbacks()
         self.scene.addChild(self.sprite)
     }
