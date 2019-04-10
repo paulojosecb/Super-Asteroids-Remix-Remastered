@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B10A4D4225CBAD30022C9A9 /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */; };
+		2B10A4D7225CBEAA0022C9A9 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D6225CBEAA0022C9A9 /* CGPoint.swift */; };
+		2B10A4D9225CCFD50022C9A9 /* AsteroidsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */; };
 		2BE1EC7D225773D200E514D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE1EC7C225773D200E514D5 /* AppDelegate.swift */; };
 		2BE1EC7F225773D200E514D5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC7E225773D200E514D5 /* GameScene.sks */; };
 		2BE1EC81225773D200E514D5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC80225773D200E514D5 /* Actions.sks */; };
@@ -14,12 +17,17 @@
 		2BE1EC85225773D200E514D5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE1EC84225773D200E514D5 /* GameViewController.swift */; };
 		2BE1EC88225773D200E514D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC86225773D200E514D5 /* Main.storyboard */; };
 		2BE1EC8A225773D400E514D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE1EC89225773D400E514D5 /* Assets.xcassets */; };
+		3033149A225CCF5C001D33A3 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30331499225CCF5C001D33A3 /* HUD.swift */; };
+		3033149C225CD1D9001D33A3 /* ThermometerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3033149B225CD1D9001D33A3 /* ThermometerDelegate.swift */; };
 		577B9463225CCDEB00C1CE2B /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577B9462225CCDEB00C1CE2B /* Bullet.swift */; };
 		5D7F83B3225B670A008D3598 /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F83B2225B670A008D3598 /* InputController.swift */; };
 		5D7F83B5225B685A008D3598 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F83B4225B685A008D3598 /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asteroid.swift; sourceTree = "<group>"; };
+		2B10A4D6225CBEAA0022C9A9 /* CGPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteroidsController.swift; sourceTree = "<group>"; };
 		2BE1EC79225773D200E514D5 /* Super Asteroids Remix Remastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Super Asteroids Remix Remastered.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE1EC7C225773D200E514D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2BE1EC7E225773D200E514D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -29,6 +37,8 @@
 		2BE1EC87225773D200E514D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2BE1EC89225773D400E514D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BE1EC8B225773D400E514D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30331499225CCF5C001D33A3 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		3033149B225CD1D9001D33A3 /* ThermometerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThermometerDelegate.swift; sourceTree = "<group>"; };
 		577B9462225CCDEB00C1CE2B /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
 		5D7F83B2225B670A008D3598 /* InputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
 		5D7F83B4225B685A008D3598 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -45,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B10A4D5225CBE9E0022C9A9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2B10A4D6225CBEAA0022C9A9 /* CGPoint.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2BE1EC70225773D200E514D5 = {
 			isa = PBXGroup;
 			children = (
@@ -64,17 +82,22 @@
 		2BE1EC7B225773D200E514D5 /* Super Asteroids Remix Remastered */ = {
 			isa = PBXGroup;
 			children = (
+				2B10A4D5225CBE9E0022C9A9 /* Extensions */,
 				2BE1EC7C225773D200E514D5 /* AppDelegate.swift */,
 				2BE1EC7E225773D200E514D5 /* GameScene.sks */,
 				2BE1EC80225773D200E514D5 /* Actions.sks */,
 				5D7F83B2225B670A008D3598 /* InputController.swift */,
+				2B10A4D8225CCFD50022C9A9 /* AsteroidsController.swift */,
+				2B10A4D3225CBAD30022C9A9 /* Asteroid.swift */,
 				5D7F83B4225B685A008D3598 /* Player.swift */,
 				577B9462225CCDEB00C1CE2B /* Bullet.swift */,
 				2BE1EC82225773D200E514D5 /* GameScene.swift */,
 				2BE1EC84225773D200E514D5 /* GameViewController.swift */,
+				30331499225CCF5C001D33A3 /* HUD.swift */,
 				2BE1EC86225773D200E514D5 /* Main.storyboard */,
 				2BE1EC89225773D400E514D5 /* Assets.xcassets */,
 				2BE1EC8B225773D400E514D5 /* Info.plist */,
+				3033149B225CD1D9001D33A3 /* ThermometerDelegate.swift */,
 			);
 			path = "Super Asteroids Remix Remastered";
 			sourceTree = "<group>";
@@ -151,10 +174,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3033149C225CD1D9001D33A3 /* ThermometerDelegate.swift in Sources */,
 				2BE1EC83225773D200E514D5 /* GameScene.swift in Sources */,
 				5D7F83B3225B670A008D3598 /* InputController.swift in Sources */,
 				2BE1EC85225773D200E514D5 /* GameViewController.swift in Sources */,
+				2B10A4D7225CBEAA0022C9A9 /* CGPoint.swift in Sources */,
+				3033149A225CCF5C001D33A3 /* HUD.swift in Sources */,
 				5D7F83B5225B685A008D3598 /* Player.swift in Sources */,
+				2B10A4D4225CBAD30022C9A9 /* Asteroid.swift in Sources */,
+				2B10A4D9225CCFD50022C9A9 /* AsteroidsController.swift in Sources */,
 				2BE1EC7D225773D200E514D5 /* AppDelegate.swift in Sources */,
 				577B9463225CCDEB00C1CE2B /* Bullet.swift in Sources */,
 			);
@@ -230,6 +258,7 @@
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TVOS_DEPLOYMENT_TARGET = 12.2;
 			};
 			name = Debug;
@@ -283,6 +312,7 @@
 				SDKROOT = appletvos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
 				TVOS_DEPLOYMENT_TARGET = 12.2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -294,7 +324,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7ZRHSKUH65;
+				DEVELOPMENT_TEAM = VA7DWMQ39T;
 				INFOPLIST_FILE = "Super Asteroids Remix Remastered/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,8 +332,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulocardosob.Super-Asteroids-Remix-Remastered";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.1;
 			};
 			name = Debug;
 		};
@@ -313,7 +344,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7ZRHSKUH65;
+				DEVELOPMENT_TEAM = VA7DWMQ39T;
 				INFOPLIST_FILE = "Super Asteroids Remix Remastered/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -321,8 +352,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulocardosob.Super-Asteroids-Remix-Remastered";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.1;
 			};
 			name = Release;
 		};

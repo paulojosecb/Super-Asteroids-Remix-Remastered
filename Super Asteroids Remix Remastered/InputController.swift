@@ -65,11 +65,3 @@ class InputController {
     }
 
 }
-
-extension CGPoint {
-
-    func magnitude() -> CGFloat {
-        return sqrt(x * x + y * y)
-    }
-
-}

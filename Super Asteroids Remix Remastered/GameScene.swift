@@ -13,16 +13,21 @@ import GameController
 class GameScene: SKScene {
 
     var lastTime: TimeInterval!
+    var hud: HUD?
+    var controllers = [InputController]()
+    var asteroidController: AsteroidsController!
     var player: Player?
 
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = CGVector.zero
         self.physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        asteroidController = AsteroidsController(with: self)
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(asteroidController.createAsteroid), SKAction.wait(forDuration: 2.0)])))
+
+        self.hud = HUD(on: self)
 
         self.setupControllerObservers()
-
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addAsteroids), SKAction.wait(forDuration: 1.0)])))
     }
 
 
@@ -36,12 +41,15 @@ class GameScene: SKScene {
             deltaTime = 0
         }
 
+        self.asteroidController.updateAsteroids()
+        self.hud?.update(deltaTime: deltaTime)
+
         if let player = self.player {
             player.update(deltaTime: deltaTime)
         }
-
-        lastTime = currentTime
         
+        lastTime = currentTime
+                
     }
 
     func random() -> CGFloat {
@@ -73,9 +81,8 @@ class GameScene: SKScene {
         asteroid.physicsBody?.contactTestBitMask = 0b00000
         
     }
-    
-    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: SKSpriteNode) {
-        asteroid.removeFromParent()
+    func BulletDidCollideWithAsteroid(bullet: SKSpriteNode, asteroid: Asteroid) {
+        asteroid.delegate?.destroy(asteroid: asteroid)
         bullet.removeFromParent()
     }
     
@@ -114,6 +121,7 @@ class GameScene: SKScene {
             player.setupControllerCallbacks()
         } else {
             self.player = Player(scene: self, microGamepad: microGamepad)
+            self.hud?.thermometerDelegate = self.player
         }
     }
 

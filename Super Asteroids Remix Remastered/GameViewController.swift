@@ -33,6 +33,7 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
             view.showsPhysics = true
         }
+    
     }
     
 }
