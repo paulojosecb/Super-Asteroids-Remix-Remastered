@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 protocol AsteroidDelegate {
-    func destroy(asteroid: Asteroid)
+    func destroy(asteroid: SKSpriteNode)
 }
 
 class AsteroidsController: GKEntity {
@@ -58,7 +58,7 @@ class AsteroidsController: GKEntity {
         }
         
         let directionToTravel = CGPoint.zero.subtract(asteroidPosition).normalized()
-        let asteroid = Asteroid(with: .small, and: asteroidPosition, directionToTravel: directionToTravel, delegate: self)
+        let asteroid = Asteroid(with: .large, and: asteroidPosition, directionToTravel: directionToTravel)
         asteroid.applyImpulse()
         self.scene.addChild(asteroid.sprite)
         
@@ -83,13 +83,10 @@ class AsteroidsController: GKEntity {
         return random() * (max - min) + min
     }
     
-}
-
-extension AsteroidsController: AsteroidDelegate {
-    
-    func destroy(asteroid: Asteroid) {
+    func destroy(asteroidSprite: SKSpriteNode) {
         
-        guard let size = asteroid.size else { return }
+        guard let asteroid = asteroidSprite.entity as? Asteroid,
+               let size = asteroid.size else { return }
         
         switch size {
         case .small:
@@ -108,10 +105,10 @@ extension AsteroidsController: AsteroidDelegate {
                 let randomY = Int.random(in: 0...100)
                 
                 let newAsteroid = Asteroid(with: .small,
-                                        and: asteroid.sprite.position,
-                                        directionToTravel: CGPoint(x: randomX, y: randomY).normalized(),
-                                        delegate: self)
+                                           and: asteroid.sprite.position,
+                                           directionToTravel: CGPoint(x: randomX, y: randomY).normalized())
                 
+                newAsteroid.sprite.setScale(0.05)
                 asteroids.append(newAsteroid)
                 self.scene.addChild(newAsteroid.sprite)
             }
@@ -125,10 +122,9 @@ extension AsteroidsController: AsteroidDelegate {
                 let randomY = Int.random(in: 0...100)
                 
                 let newAsteroid = Asteroid(with: .medium,
-                                        and: asteroid.sprite.position,
-                                        directionToTravel: CGPoint(x: randomX, y: randomY).normalized(),
-                                        delegate: self)
-                
+                                           and: asteroid.sprite.position,
+                                           directionToTravel: CGPoint(x: randomX, y: randomY).normalized())
+                 newAsteroid.sprite.setScale(0.1)
                 asteroids.append(newAsteroid)
                 self.scene.addChild(newAsteroid.sprite)
             }
@@ -136,4 +132,6 @@ extension AsteroidsController: AsteroidDelegate {
         }
         
     }
+
 }
+

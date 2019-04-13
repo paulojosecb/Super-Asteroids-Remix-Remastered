@@ -20,22 +20,24 @@ class Asteroid: GKEntity {
     var sprite: SKSpriteNode = SKSpriteNode(imageNamed: "asteroid")
     var size: AsteroidSize!
     var directionToTravel: CGPoint!
-    var impulseIntensity: CGFloat = 0.0002
-    
-    var delegate: AsteroidDelegate?
+    var impulseIntensity: CGFloat = 100
     
     override init() {
         super.init()
     }
     
-    convenience init(with size: AsteroidSize, and position: CGPoint, directionToTravel: CGPoint, delegate: AsteroidDelegate) {
+    convenience init(with size: AsteroidSize, and position: CGPoint, directionToTravel: CGPoint) {
         self.init()
         self.size = size
         self.sprite.setScale(0.2)
         self.sprite.position = position
         self.directionToTravel = directionToTravel
-        self.delegate = delegate
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 0.2, height: 0.2))
+    
+        self.sprite.entity = self
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
+        self.sprite.physicsBody?.categoryBitMask = 0b00100
+        self.sprite.physicsBody?.collisionBitMask = 0b00001
+        self.sprite.physicsBody?.contactTestBitMask = 0b00000
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,3 +56,4 @@ class Asteroid: GKEntity {
     
     
 }
+
